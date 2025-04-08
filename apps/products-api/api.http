@@ -1,8 +1,8 @@
 
 
 ###Get all products
-GET http://localhost:3000/api/products
+GET http://localhost:3001/api/products
 
 ###Get product by id
-GET http://localhost:3000/api/products/1
+GET http://localhost:3001/api/products/1
 
