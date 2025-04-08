@@ -1,0 +1,7 @@
+## Web app
+For web app make changes in apps/chatbot-webapp
+web app is nextjs , shadcn/ui, tailwindcss, use clean code and best practices
+
+## Product API
+For product api make changes in apps/products-api
+product api is expressjs, cors, use clean code and best practices
