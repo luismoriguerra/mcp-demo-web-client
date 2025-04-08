@@ -1,11 +1,11 @@
 import getTools from '@/lib/ai-tools';
 import { openai } from '@ai-sdk/openai';
-import { anthropic } from '@ai-sdk/anthropic';
+// import { anthropic } from '@ai-sdk/anthropic';
 import { streamText } from 'ai';
-import { createOpenRouter } from '@openrouter/ai-sdk-provider';
-const openrouter = createOpenRouter({
-  apiKey: process.env.OPENROUTER_API_KEY,
-});
+// import { createOpenRouter } from '@openrouter/ai-sdk-provider';
+// const openrouter = createOpenRouter({
+//   apiKey: process.env.OPENROUTER_API_KEY,
+// });
 
 
 // Allow streaming responses up to 30 seconds
@@ -26,14 +26,21 @@ export async function POST(req: Request) {
   const { messages } = await req.json();
 
   const tools = await getTools();
-
+  
 
   const result = streamText({
-    model: openrouter.chat('anthropic/claude-3.7-sonnet'),
+    // model: openrouter.chat('anthropic/claude-3.7-sonnet'),
+    model: openai('gpt-4o'),
     system: SYSTEM_PROMPT,
     messages,
-    maxSteps: 20,
+    maxSteps: 8,
     tools,
+    onFinish: (result) => {
+      console.log(result);
+    },
+    onError: (error) => {
+      console.error(error);
+    },
   });
 
   return result.toDataStreamResponse();

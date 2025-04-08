@@ -6,20 +6,32 @@ export const server = new McpServer({
   version: "1.0.0",
 });
 
-server.tool("getOrders", "Get product orders", async () => {
-  console.error("Fetching orders");
-  const res = await fetch("http://localhost:3001/api/orders");
-  const orders = await res.json();
+server.tool(
+  "getOrders", 
+  "Get product orders", 
+  {
+    random_string: z.string().describe("Dummy parameter for no-parameter tools"),
+  },
+  async () => {
+    console.error("Fetching orders");
+    const res = await fetch("http://localhost:3001/api/orders");
+    const orders = await res.json();
 
-  return { content: [{ type: "text", text: JSON.stringify(orders) }] };
+    return { content: [{ type: "text", text: JSON.stringify(orders) }] };
 });
 
-server.tool("getInventory", "Get product inventory", async () => {
-  console.error("Fetching inventory");
-  const res = await fetch("http://localhost:3001/api/inventory");
-  const inventory = await res.json();
-  console.log(inventory);
-  return { content: [{ type: "text", text: JSON.stringify(inventory) }] };
+server.tool(
+  "getInventory", 
+  "Get product inventory", 
+  {
+    random_string: z.string().describe("Dummy parameter for no-parameter tools"),
+  },
+  async () => {
+    console.error("Fetching inventory");
+    const res = await fetch("http://localhost:3001/api/inventory");
+    const inventory = await res.json();
+    console.log(inventory);
+    return { content: [{ type: "text", text: JSON.stringify(inventory) }] };
 });
 
 server.tool(
