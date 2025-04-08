@@ -11,8 +11,20 @@ const getProducts = tool({
     }
 });
 
+const recommendProduct = tool({
+    description: "Recommend a product to the user",
+    parameters: z.object({
+        id: z.string().describe("The id of the product to recommend"),
+        name: z.string().describe("The name of the product to recommend"),
+        price: z.number().describe("The price of the product to recommend"),
+        description: z.string().describe("The description of the product to recommend"),
+        imageUrl: z.string().describe("The image of the product to recommend"),
+    }),
+});
+
 export default async function getTools() {
     return {
-        getProducts
+        getProducts,
+        recommendProduct
     }
 }

@@ -8,6 +8,6 @@ export const fetchProducts = async () => {
         name: string;
         price: number;
         description: string;
-        image?: string;
+        imageUrl?: string;
     }>;
 };

@@ -6,9 +6,16 @@ import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Send } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { ProductCard } from '@/components/ProductCard';
 
 export default function Chat() {
-  const { messages, input, handleInputChange, handleSubmit } = useChat();
+  const { messages, input, handleInputChange, handleSubmit } = useChat({
+    onToolCall: (tool) => {
+      if (tool.toolCall.toolName === "recommendProduct") {
+        return "Handle by UI"
+      }
+    }
+  });
 
   return (
     <div className="flex flex-col w-full h-screen bg-background">
@@ -42,6 +49,23 @@ export default function Chat() {
                           {part.text}
                         </div>
                       );
+                    case 'tool-invocation':
+                      if (part.toolInvocation.toolName === "recommendProduct") {
+                        const product = part.toolInvocation.args;
+                        return (
+                          <div key={`${message.id}-${i}`} className="w-full">
+                            <ProductCard
+                              id={product.id}
+                              name={product.name}
+                              description={product.description}
+                              price={product.price}
+                              imageUrl={product.imageUrl}
+                            />
+                          </div>
+                        )
+                      }
+                    default:
+                      return null;
                   }
                 })}
               </div>
