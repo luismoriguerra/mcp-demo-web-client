@@ -1,6 +1,16 @@
-import { tool } from "ai";
+import { experimental_createMCPClient, tool } from "ai";
 import { fetchProducts } from "./api";
 import { z } from "zod";
+
+
+const mcpClient = await experimental_createMCPClient({
+    transport: {
+        type: "sse",
+        url: "http://localhost:8081/sse",
+    },
+    name: "Order Service",
+});
+
 
 
 const getProducts = tool({
@@ -23,8 +33,10 @@ const recommendProduct = tool({
 });
 
 export default async function getTools() {
+    const tools = await mcpClient.tools();
     return {
+        ...tools,
         getProducts,
-        recommendProduct
+        recommendProduct,
     }
 }
